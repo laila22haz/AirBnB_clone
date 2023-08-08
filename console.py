@@ -128,6 +128,8 @@ class HBNBCommand(cmd.Cmd):
                 key = f"{cl_name}.{id}"
                 obj = dict[key]
                 setattr(obj, attr, val)
+                storage.save()
+                
     
         
     def help_update(self):

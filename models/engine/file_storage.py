@@ -1,0 +1,39 @@
+#!/usr/bin/python3
+import json
+import os
+from models.base_model import BaseModel
+
+class FileStorage:
+    
+    __file_path = "file.json"
+    __objects = {}
+    
+    def all(self):
+        return FileStorage.__objects
+    
+    def new(self, obj):
+        k = f"{obj.__class__.__name__}.{obj.id}"
+        FileStorage.__objects[k] = obj
+    '''
+    def to_dict(self):
+        return {
+            "__class__": self.__class__.__name__,
+            **{
+                k: v.isoformat() if isinstance(v, datetime) else
+               v for k,v in self.__dict__.items()
+               }
+        }
+    '''
+    def save(self):
+        obj_dict = {k: v.to_dict() for k,v in FileStorage.__objects.items()}        
+        with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
+            json.dump(obj_dict, file)
+
+    def reload(self):
+        json_file = FileStorage.__file_path
+        if os.path.exists(json_file):
+            with open(json_file, "r") as file:
+                obj_dict = json.load(file)
+                for obj in obj_dict.values():
+                    name = obj["__class__"]
+                    self.new(globals()[name](**obj))

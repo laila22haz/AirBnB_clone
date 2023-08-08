@@ -2,6 +2,7 @@
 import json
 import os
 from models.base_model import BaseModel
+from models.user import User
 
 class FileStorage:
     
@@ -14,16 +15,7 @@ class FileStorage:
     def new(self, obj):
         k = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[k] = obj
-    '''
-    def to_dict(self):
-        return {
-            "__class__": self.__class__.__name__,
-            **{
-                k: v.isoformat() if isinstance(v, datetime) else
-               v for k,v in self.__dict__.items()
-               }
-        }
-    '''
+
     def save(self):
         obj_dict = {k: v.to_dict() for k,v in FileStorage.__objects.items()}        
         with open(FileStorage.__file_path, "w", encoding="utf-8") as file:

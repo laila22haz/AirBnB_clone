@@ -1,8 +1,7 @@
 #!/usr/bin/python3
 import cmd
-import inspect
-from models.base_model import BaseModel, User, City, Notaclass
-from models.engine.file_storage import FileStorage
+from models.base_model import BaseModel
+from models.user import User
 from models import storage
 
     
@@ -93,10 +92,12 @@ class HBNBCommand(cmd.Cmd):
             if not check_class(arg, "BaseModel"):
                 print("** class doesn't exist **")
             else:
+                lst = []
                 for k in dict.keys():
-                    exp = k.split()
+                    exp = k.split(".")
                     cl_name = exp[0]
-                lst = [str(dict[obj]) for obj in dict.keys() if cl_name == arg]
+                    if cl_name == arg:
+                        lst.append(str(dict[k]))
                 print(lst)
 
     def help_all(self):

@@ -1,15 +1,16 @@
 #!/usr/bin/python3
 import cmd
 import inspect
-from models.base_model import BaseModel
+from models.base_model import BaseModel, User, City, Notaclass
+from models.engine.file_storage import FileStorage
 from models import storage
 
     
 def check_class(name, cl_name):
     '''checks if name is of class cl_name or one of its subclasses'''
-    if name in globals():
-        return name == cl_name or issubclass(globals()[name], globals()[cl_name])
-    return -1
+    return name in globals() and \
+        (name == cl_name or
+         issubclass(globals()[name],globals()[cl_name]))
 
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
@@ -18,15 +19,16 @@ class HBNBCommand(cmd.Cmd):
     
     def do_create(self, line):
         "Creates a new instance of a defined class"
-        args = line.split()
-        if len(args) == 1:
+        if not line:
             print("** class name missing **")
-        elif len(args) > 1 and not check_class(args[1], "BaseModel"):
-            print("** class doesn't exist **")
         else:
-            inst = BaseModel()
-            inst.save()
-            print(inst.id)
+            args = line.split()
+            if not check_class(args[0], "BaseModel"):
+                print("** class doesn't exist **")
+            else:
+                inst = eval(f"{args[0]}()")
+                inst.save()
+                print(inst.id)
              
     def help_create(self):
         '''displays the corresponding help message'''
@@ -40,11 +42,10 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = line.split()
             dict = storage.all()
-            if len(args) == 1:
-                if not check_class(args[0], "BaseModel"):
-                    print("** class doesn't exist **")
-                else:
-                    print("** instance id missing **")
+            if not check_class(args[0], "BaseModel"):
+                print("** class doesn't exist **")
+            elif len(args) < 2:
+                print("** instance id missing **")
             elif f"{args[0]}.{args[1]}" not in dict.keys():
                 print("** no instance found **")
             else:
@@ -65,11 +66,10 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = line.split()
             dict = storage.all()
-            if len(args) == 1:
-                if not check_class(args[0], "BaseModel"):
-                    print("** class doesn't exist **")
-                else:
-                    print("** instance id missing **")
+            if not check_class(args[0], "BaseModel"):
+                print("** class doesn't exist **")
+            elif len(args) < 2:
+                print("** instance id missing **")
             elif f"{args[0]}.{args[1]}" not in dict.keys():
                 print("** no instance found **")
             else:
@@ -103,7 +103,7 @@ class HBNBCommand(cmd.Cmd):
         '''displays the corresponding help message'''
         print(' '.join(["Prints all string representation of all",
                       "instances based or not on the class name"]))
-    """
+    
     def do_update(self, line):
         '''Updates an instance based on the class name and id
         by adding or updating attribute'''
@@ -112,14 +112,22 @@ class HBNBCommand(cmd.Cmd):
         else:
             args = line.split()
             dict = storage.all()
-            if len(args) == 1:
-                if args[0] not in globals():
-                    print("** class doesn't exist **")
-                else:
-                    print("** instance id missing **")
+            if not check_class(args[0], "BaseModel"):
+                print("** class doesn't exist **")
+            elif len(args) < 2:
+                print("** instance id missing **")
             elif f"{args[0]}.{args[1]}" not in dict.keys():
                 print("** no instance found **")
-    """
+            elif len(args) < 3:
+                print("** attribute name missing **")
+            elif len(args) < 4:
+                print("** value missing **")
+            else:
+                cl_name, id, attr, val = args[:4]
+                key = f"{cl_name}.{id}"
+                obj = dict[key]
+                setattr(obj, attr, val)
+    
         
     def help_update(self):
         print('\n'.join([' '.join(["Updates an instance based on the class",

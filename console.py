@@ -33,8 +33,8 @@ class HBNBCommand(cmd.Cmd):
         print("Creates a new instance of a defined class")
 
     def do_show(self, line):
-        """Prints the string representation of an instance\
-        based on the class name and id"""
+        '''Prints the string representation of an instance\
+        based on the class name and id'''
         if not line:
             print("** class name missing **")
         else:
@@ -59,7 +59,7 @@ class HBNBCommand(cmd.Cmd):
                         "Usage : show <class_name> <instance id>"]))
     
     def do_destroy(self, line):
-        """Deletes an instance based on the class name and id"""
+        '''Deletes an instance based on the class name and id'''
         if not line:
             print("** class name missing **")
         else:
@@ -128,11 +128,11 @@ class HBNBCommand(cmd.Cmd):
                                   '<attribute name> "<attribute value>"'])]))
 
     def do_quit(self, line):
-        "Quit command to exit the program"
+        '''Quit command to exit the program'''
         return True
 
     def do_EOF(self, line):
-        "EOF command to exit the program"
+        '''EOF command to exit the program'''
         return True
 
 if __name__ == '__main__':

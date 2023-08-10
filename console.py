@@ -1,5 +1,6 @@
 #!/usr/bin/python3
 import cmd
+import re
 from models.base_model import BaseModel
 from models.user import User
 from models.amenity import Amenity
@@ -16,19 +17,42 @@ def check_class(name, cl_name):
         (name == cl_name or
          issubclass(globals()[name],globals()[cl_name]))
 
+def cmd_parsing(expr):
+    pattern = r"(\w+)\.(\w+)(\((.*?)\))?"
+    match = re.match(pattern, expr)
+    if match:
+        groups = match.groups()
+        c_name, command, args = groups[0], groups[1], groups[3].split(',') if groups[3] else []
+        return [command, c_name] + [el for el in args if len(args) > 0]
+    return []
+
 class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     ruler = "="
     doc_header = "Documented commands (type help <topic>):"
-    
+
+    def default(self, line):
+        if line:
+            cmd_lst = cmd_parsing(line)
+            if len(cmd_lst) < 2:
+                print("Invalid syntax")
+            else:
+                command, cl_name = cmd_lst[0:2]
+                args = cmd_lst[2:] if cmd_lst[2:] else []
+                strs = " ".join(args)
+                if strs == "":
+                    eval(f"self.do_{command}('{cl_name}')")
+                else:
+                    eval(f"self.do_{command}('{cl_name}', '{strs}')")
+
     def do_create(self, line):
-        "Creates a new instance of a defined class"
+        '''Creates a new instance of a defined class'''
         if not line:
             print("** class name missing **")
         else:
             args = line.split()
             if not check_class(args[0], "BaseModel"):
-                print("** class doesn't exist **")
+                print(f"** class doesn't exist **")
             else:
                 inst = eval(f"{args[0]}()")
                 inst.save()
@@ -94,14 +118,15 @@ class HBNBCommand(cmd.Cmd):
             lst = [str(dict[obj]) for obj in dict.keys()]
             print(lst)
         else:
-            if not check_class(arg, "BaseModel"):
-                print("** class doesn't exist **")
+            args = arg.split()
+            if not check_class(args[0], "BaseModel"):
+                print(f"** class doesn't exist **")
             else:
                 lst = []
                 for k in dict.keys():
                     exp = k.split(".")
                     cl_name = exp[0]
-                    if cl_name == arg:
+                    if cl_name == args[0]:
                         lst.append(str(dict[k]))
                 print(lst)
 
@@ -142,6 +167,25 @@ class HBNBCommand(cmd.Cmd):
                         "name and id by adding or updating attribute"]),
                         ' '.join(['Usage: update <class name> <id>',
                                   '<attribute name> "<attribute value>"'])]))
+
+    def do_count(self, line):
+        '''Creates a new instance of a defined class'''
+        count = 0
+        if not line:
+            print("** class name missing **")
+        else:
+            dict = storage.all()
+            args = line.split()
+            if not check_class(args[0], "BaseModel"):
+                print(f"** class doesn't exist **")
+            else:
+                for k in dict.keys():
+                    exp = k.split('.')
+                    cl_name = exp[0]
+                    if (cl_name == args[0]):
+                        count += 1
+                print(count)
+                
 
     def do_quit(self, line):
         '''Quit command to exit the program'''

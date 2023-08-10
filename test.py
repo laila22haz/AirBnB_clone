@@ -1,27 +1,42 @@
 #!/usr/bin/python3
+import re
 from models import storage
 from models.base_model import BaseModel
 from models.user import User
 
-all_objs = storage.all()
-print("-- Reloaded objects --")
-for obj_id in all_objs.keys():
-    obj = all_objs[obj_id]
-    print(obj)
+def cmd_parsing(expr):
+    pattern = r"(\w+)\.(\w+)(\((.*?)\))?"
+    match = re.match(pattern, expr)
+    groups = match.groups()
+    c_name, command, args = groups[0], groups[1], groups[3].split(',') if groups[3] else []
+    return [command, c_name] + [el for el in args if len(args) > 0]
+    #return [el for el in match.groups() if el]
+    
 
-print("-- Create a new User --")
-my_user = User()
-my_user.first_name = "Betty"
-my_user.last_name = "Bar"
-my_user.email = "airbnb@mail.com"
-my_user.password = "root"
-my_user.save()
-print(my_user)
+strg = "BaseModel.all(arg1, arg2)"
+valid = cmd_parsing(strg)
+print(valid)
+str = ""
+for el in valid[1:]:
+    str += f"{el} "
+print(str)
+command, cl_name = valid[0:2]
+args = valid[2:] if valid[2:] else []
+strs = " ".join(args)
+if strs == "":
+    print(f"self.do_{command}({cl_name})")
+else:
+    print(f"self.do_{command}({cl_name} {strs})")
+'''
+cl_name = match.group(1)
+cmd = match.group(2)
+args = match.group(3)
+print(f"{cl_name}, {cmd}, {args.split(',')}")
+'''
+'''
+parts = str.split('.')
+print(parts[1])
+parts2 = parts[1].split('(')
 
-print("-- Create a new User 2 --")
-my_user2 = User()
-my_user2.first_name = "John"
-my_user2.email = "airbnb2@mail.com"
-my_user2.password = "root"
-my_user2.save()
-print(my_user2)
+print(parts2)
+'''

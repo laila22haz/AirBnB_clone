@@ -9,11 +9,11 @@ def cmd_parsing(expr):
     match = re.match(pattern, expr)
     groups = match.groups()
     c_name, command, args = groups[0], groups[1], groups[3].split(',') if groups[3] else []
-    return [command, c_name] + [el for el in args if len(args) > 0]
+    return [command, c_name] + [el.strip('" ') for el in args if len(args) > 0]
     #return [el for el in match.groups() if el]
     
 
-strg = "BaseModel.all(arg1, arg2)"
+strg = 'BaseModel.all("arg1", "arg2", "argus 3")'
 valid = cmd_parsing(strg)
 print(valid)
 str = ""

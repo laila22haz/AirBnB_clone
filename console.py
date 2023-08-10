@@ -23,7 +23,7 @@ def cmd_parsing(expr):
     if match:
         groups = match.groups()
         c_name, command, args = groups[0], groups[1], groups[3].split(',') if groups[3] else []
-        return [command, c_name] + [el for el in args if len(args) > 0]
+        return [command, c_name] + [el.strip('" ') for el in args if len(args) > 0]
     return []
 
 class HBNBCommand(cmd.Cmd):
@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
                 if strs == "":
                     eval(f"self.do_{command}('{cl_name}')")
                 else:
-                    eval(f"self.do_{command}('{cl_name}' {strs})")
+                    eval(f"self.do_{command}('{cl_name} {strs}')")
 
     def do_create(self, line):
         '''Creates a new instance of a defined class'''

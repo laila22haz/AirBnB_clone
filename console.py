@@ -43,7 +43,7 @@ class HBNBCommand(cmd.Cmd):
                 if strs == "":
                     eval(f"self.do_{command}('{cl_name}')")
                 else:
-                    eval(f"self.do_{command}('{cl_name}', '{strs}')")
+                    eval(f"self.do_{command}('{cl_name} {strs}')")
 
     def do_create(self, line):
         '''Creates a new instance of a defined class'''

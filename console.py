@@ -22,7 +22,7 @@ def check_class(name, cl_name):
 
 
 def cmd_parsing(expr):
-    """Parser function"""
+    """Parser function for custom command"""
     pattern = r"(\w+)\.(\w+)(\((.*?)\))?"
     match = re.match(pattern, expr)
     if match:
@@ -39,6 +39,10 @@ class HBNBCommand(cmd.Cmd):
     prompt = "(hbnb) "
     ruler = "="
     doc_header = "Documented commands (type help <topic>):"
+
+    def emptyline(self):
+        """called if empty line"""
+        pass
 
     def default(self, line):
         """triggered if command is undefined"""

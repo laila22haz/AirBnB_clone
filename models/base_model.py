@@ -10,6 +10,7 @@ import models
 class BaseModel():
     """BaseModel class that will serve as a base for the other classes"""
     def __init__(self, *args, **kwargs):
+        """instantiation using either a dictionary or auto-generation"""
         if kwargs:
             for k, v in kwargs.items():
                 if k != "__class__":
@@ -23,10 +24,12 @@ class BaseModel():
             models.storage.new(self)
 
     def save(self):
+        """save instance a json file by calling save from storage"""
         self.updated_at = datetime.now()
         models.storage.save()
 
     def to_dict(self):
+        """dicrionary representation of a BaseModel instance"""
         return {
             "__class__": self.__class__.__name__,
             **{
@@ -36,4 +39,5 @@ class BaseModel():
         }
 
     def __str__(self):
+        """string representation of a BaseModel instance"""
         return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")

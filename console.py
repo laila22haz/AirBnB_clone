@@ -1,5 +1,7 @@
 #!/usr/bin/python3
-"""Console for Airbnb project"""
+"""
+Console module for Airbnb project
+"""
 import cmd
 import re
 from models.base_model import BaseModel

@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
             obj = user_input()
             storage.save()
             print(obj.id)
-        except:
+        except :
             print("** class doesn't exist **")
 
 
@@ -48,7 +48,7 @@ class HBNBCommand(cmd.Cmd):
         try:
             key = argv[0] + "." + argv[1]
             print(storage.all()[key])
-        except:
+        except Exception:
             print("** no instance found **")
 
 
@@ -74,11 +74,14 @@ class HBNBCommand(cmd.Cmd):
 
     def do_all(self, line):
         argv = line.split()
-        if len(argv) < 2:
+        try:
+            user_input = globals()[argv[0]]
+            variable = storage.all().values()
+            result = [str(value) for value in variable if isinstance(value, user_input)]
+            print(result)
+        except:
             print("** class doesn't exist **")
             return
-        result = BaseModel.to_dict(argv[0])
-        print(result)
 
     def help_quit(self):
         print("Quit command to exit the program")

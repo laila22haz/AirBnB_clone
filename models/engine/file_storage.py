@@ -24,7 +24,7 @@ class FileStorage:
     def save(self):
         obj_dict = {k: v.to_dict() for k,v in FileStorage.__objects.items()}        
         with open(FileStorage.__file_path, "w", encoding="utf-8") as file:
-            json.dump(obj_dict, file)
+            json.dump(obj_dict, file, indent=4)
 
     def reload(self):
         json_file = FileStorage.__file_path

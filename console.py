@@ -2,16 +2,16 @@
 """
 Console module for Airbnb project
 """
-import cmd
-import re
-from models.base_model import BaseModel
-from models.user import User
 from models.amenity import Amenity
+from models.base_model import BaseModel
 from models.city import City
-from models.state import State
+import cmd
 from models.place import Place
+import re
 from models.review import Review
+from models.state import State
 from models import storage
+from models.user import User
 
 
 def check_class(name, cl_name):

@@ -28,7 +28,7 @@ class HBNBCommand(cmd.Cmd):
             obj = user_input()
             storage.save()
             print(obj.id)
-        except :
+        except Exception :
             print("** class doesn't exist **")
 
 
@@ -82,6 +82,35 @@ class HBNBCommand(cmd.Cmd):
         except:
             print("** class doesn't exist **")
             return
+
+
+    def do_update(self, line):
+        args = line.split()
+        class_name = globals()(args[0])
+        key = args[0] + "." + args[1]
+        split_id = key.split(".")
+        if not args:
+            print("** class name missing **")
+            return
+        elif not class_name:
+            print("** class doesn't exist **")
+            return
+        elif len(args) < 2:
+            print("** instance id missing **")
+            return
+        elif not split_id[1]:
+            print("** no instance found **")
+            return
+        elif len(args) < 3:
+            print("** attribute name missing **")
+        elif len(args) < 4:
+            print("** value missing **")
+        dict = storage.all(split_id[1])
+        for value in dict.values():
+            if value == args[2]:
+                dict[key] == value
+        return dict
+
 
     def help_quit(self):
         print("Quit command to exit the program")

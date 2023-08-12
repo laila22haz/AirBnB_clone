@@ -3,11 +3,12 @@ from uuid import uuid4
 from datetime import datetime
 import models
 
+
 class BaseModel():
-    
+    """BaseModel class that will serve as a base for the other classes"""
     def __init__(self, *args, **kwargs):
         if kwargs:
-            for k,v in kwargs.items():
+            for k, v in kwargs.items():
                 if k != "__class__":
                     if k in ["created_at", "updated_at"]:
                         v = datetime.strptime(v, "%Y-%m-%dT%H:%M:%S.%f")
@@ -27,10 +28,9 @@ class BaseModel():
             "__class__": self.__class__.__name__,
             **{
                 k: v.isoformat() if isinstance(v, datetime) else
-               v for k,v in self.__dict__.items()
+                v for k, v in self.__dict__.items()
                }
         }
 
-    
     def __str__(self):
         return (f"[{self.__class__.__name__}] ({self.id}) {self.__dict__}")

@@ -2,13 +2,19 @@
 """
 BaseModel module
 """
-from uuid import uuid4
 from datetime import datetime
 import models
+from uuid import uuid4
 
 
 class BaseModel():
-    """BaseModel class that will serve as a base for the other classes"""
+    """
+    BaseModel class that will serve as a base for the other classes
+
+    Arguments:
+            *args: Not used.
+            **kwargs: A dictionary of attributes to initialize the instance.
+    """
     def __init__(self, *args, **kwargs):
         """instantiation using either a dictionary or auto-generation"""
         if kwargs:

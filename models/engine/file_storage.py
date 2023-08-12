@@ -2,19 +2,25 @@
 """
 FileStorage module to store data
 """
+from models.amenity import Amenity
+from models.base_model import BaseModel
+from models.city import City
 import json
 import os
-from models.base_model import BaseModel
-from models.user import User
-from models.amenity import Amenity
-from models.city import City
-from models.state import State
 from models.place import Place
 from models.review import Review
+from models.state import State
+from models.user import User
 
 
 class FileStorage:
-    """FileStorage class for storing and loading data"""
+    """
+    FileStorage class for storing and loading data
+
+    Attributes:
+        __file_path (str): the file path of json file
+        __objects (dict): A dictionary to store instances
+    """
 
     __file_path = "file.json"
     __objects = {}
@@ -24,7 +30,11 @@ class FileStorage:
         return FileStorage.__objects
 
     def new(self, obj):
-        """stores an object on the objects dictionary"""
+        """
+        stores an object on the objects dictionary
+        Arguments:
+            obj : The object to be stored.
+        """
         k = f"{obj.__class__.__name__}.{obj.id}"
         FileStorage.__objects[k] = obj
 

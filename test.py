@@ -41,6 +41,8 @@ dict_output = (
                 .format(mymodel.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)}"))
                 )
 print(dict_output)
+print(type(mymodel.created_at))
+print(type(mymodel.updated_at))
 '''
 print(mymodel.id)
 time1 = mymodel.created_at.strftime('%Y-%m-%d %H:%M:%S')

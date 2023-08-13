@@ -8,7 +8,7 @@ import os
 import models
 from datetime import datetime, timedelta
 from time import sleep
-from models.engine.file_storage import FileStorage
+from models import storage
 from models.base_model import BaseModel
 import uuid
 

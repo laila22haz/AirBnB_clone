@@ -10,6 +10,7 @@ import unittest
 class TestUser(unittest.TestCase):
     """Test User class"""
     def setUp(self):
+        """method that setUp the user"""
         self.user = User()
 
     def tearDown(self):

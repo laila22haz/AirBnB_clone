@@ -2,10 +2,9 @@
 """
 Unittest for User Class
 """
-import unittest
 from models.user import User
 from models.base_model import BaseModel
-import os
+import unittest
 
 
 class TestUser(unittest.TestCase):

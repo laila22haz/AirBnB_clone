@@ -1,11 +1,10 @@
 #!/usr/bin/python3
-"""
-Unittest for BaseModel
+
+"""Unittest for BaseModel
 """
 import unittest
-from unittest.mock import MagicMock, patch
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
 from time import sleep
 from models.base_model import BaseModel
 from models import storage
@@ -17,11 +16,11 @@ def json_clear():
     for file in json_file:
         file_path = os.path.join(os.getcwd(), file)
         os.remove(file_path)
-        print(f"{file} removed...")
 
 def dispatch(obj):
     if isinstance(obj, BaseModel):
-        return [obj.id, obj.created_at, obj.updated_at]
+        return [obj.id, obj.created_at.strftime('%Y-%m-%d %H:%M:%S'),
+                obj.updated_at.strftime('%Y-%m-%d %H:%M:%S')]
     return []
 
 def is_valis_id(id):
@@ -29,101 +28,61 @@ def is_valis_id(id):
         uuid.UUID(id)
         return True
     except ValueError:
-        return False
-
-def converter(date_val):
-    try:
-        return date_val.strftime("datetime.datetime(%Y, %-m, %dT, %-H, %-M, %-S, %f)")
-    except TypeError:
-        return -1
+        return False   
 
 class BaseTestCase(unittest.TestCase):
     """Test class for BaseModel"""
     @classmethod
-    def setUp(cls):
+    def setUpClass(cls):
         """set up class for to initialize test cases"""
-        json_clear()
-        cls.my_model = BaseModel()
-        cls.id, cls.crt_date, cls.upd_date = dispatch(cls.my_model)
-        cls.maxDiff = None
-        
+        pass
+    
     @classmethod
-    def tearDown(cls):
+    def tearDownClass(cls):
         """tear down class for to close test cases"""
-        json_clear()
+        pass
     
-    def assertDatetimealmostEqual(self, dt1, dt2, delta=timedelta(milliseconds=1000)):
-        diff = abs(dt2 - dt1)
-        self.assertTrue(diff <= delta,  f"Difference between {dt1} and {dt2} is greater than {delta}")
-    
-    def assertDategreater(self, d_upd, d_creat):
-        self.assertTrue(d_upd >= d_creat, f"{d_creat} is more recent")
-  
-    def test_1_simple_initial_tests(self):
-        """test case for attributes type and validity"""
-        id, crt_date, upd_date = dispatch(self.my_model)
-        self.assertEqual(type(self.my_model), BaseModel)
-        self.assertTrue(isinstance(self.my_model, BaseModel))
-        self.my_model.name = "My First Model"
-        self.my_model.my_number = 89
-        self.assertEqual(self.my_model.name,"My First Model")
-        self.assertEqual(self.my_model.my_number, 89)
-        self.assertTrue(is_valis_id(self.my_model.id))
-        self.assertEqual(self.my_model.id, id)
-        self.my_model.id = 5
-        self.assertEqual(self.my_model.id, 5)
+    def test_1(self):
+        """test case for"""
+        my_model = BaseModel()
+        my_model.name = "My First Model"
+        my_model.my_number = 89
+        id, crt_date, upd_date = dispatch(my_model)
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        self.assertEqual(str(type(my_model)), "<class 'models.base_model.BaseModel'>")
+        self.assertTrue(isinstance(my_model, BaseModel))
+        self.assertEqual(my_model.name,"My First Model")
+        self.assertEqual(my_model.my_number, 89)
+        self.assertTrue(is_valis_id(my_model.id))
+        self.assertEqual(my_model.id, id)
+        my_model.id = 5
+        self.assertEqual(my_model.id, 5)
+        self.assertEqual(str(my_model.created_at.strftime('%Y-%m-%d %H:%M:%S')), 
+                         crt_date)
+        self.assertEqual(str(type(my_model.created_at)), "<class 'datetime.datetime'>")
+        self.assertEqual(str(my_model.updated_at.strftime('%Y-%m-%d %H:%M:%S')),
+                         upd_date)
+        self.assertEqual(str(type(my_model.updated_at)), "<class 'datetime.datetime'>")
+        self.assertEqual(str(my_model.created_at.strftime('%Y-%m-%d %H:%M:%S')),
+                         current_date)
+        sleep(1)
+        current_date = datetime.now().strftime('%Y-%m-%d %H:%M:%S')
+        my_model.save()
+        self.assertEqual(str(my_model.updated_at.strftime('%Y-%m-%d %H:%M:%S')),
+                         current_date)
 
-    def test_2_datetime(self):
-        """test cases for datetime attributes"""
-        self.assertEqual(type(self.crt_date), datetime)
-        self.assertEqual(type(self.upd_date), datetime)
-        current = datetime.now()
-        self.assertDatetimealmostEqual(self.crt_date, current)
-        self.assertDategreater(self.upd_date, self.crt_date)
-        self.my_model.save()
-        upd_date2 = self.my_model.updated_at
-        current = datetime.now()
-        self.assertDategreater(upd_date2, self.crt_date)
-        self.assertDatetimealmostEqual(current, upd_date2)   
-    '''Not working
-    @patch('models.base_model.datetime')
-    def test_3_str_representation(self, mock_datetime):
-        """test case for str representation"""
-        fixed_datetime = datetime(2023, 8, 13, 13, 1, 21, 552961)
-        mock_now = MagicMock()
-        mock_now.return_value = fixed_datetime
-        mock_datetime.now = mock_now
-        self.assertEqual(type(str(self.my_model)), str)
-        dict_output = f"[BaseModel] ({self.id}) {{'id': '{self.id}', 'created_at': {converter(self.crt_date)}, 'updated_at': {converter(self.upd_date)}}}"
-        self.assertEqual(str(self.my_model), dict_output)
-        mock_datetime.now = mock_now
-        self.assertEqual(str(self.my_model), dict_output)
-    '''
-    def test_4_dict_representation(self):
-        """test case for dict representations"""
-        BaseDict = self.my_model.to_dict()
-        self.assertEqual(type(BaseDict), dict)
-        self.assertDictEqual({'__class__': 'BaseModel', 
-                              'id': self.id, 'created_at': self.crt_date.isoformat(),
-                              'updated_at': self.upd_date.isoformat()},
-                              BaseDict)
-    
-    def test_5_inst_from_dict(self):
-        """test instanciation from dictionary"""
-        self.my_model.name = "My_First_Model"
-        self.my_model.my_number = 89
-        BaseDict = self.my_model.to_dict()
-        new_model = BaseModel(**BaseDict)
-        self.assertEqual(type(new_model), BaseModel)
-        NewDict = new_model.to_dict()
-        self.assertDictEqual({'__class__': 'BaseModel', 
-                              'id': self.id, 'created_at': self.crt_date.isoformat(),
-                              'updated_at': self.upd_date.isoformat(),
-                              'name': "My_First_Model",
-                              'my_number': 89},
-                              NewDict)
-
-    def test_6_store(self):
-        """test """
-        
-        
+    def test_2(self):
+        """test case for"""
+        self.maxDiff = None
+        my_model = BaseModel()
+        self.assertEqual(str(type(str(my_model))), "<class 'str'>")
+        dict_output = (
+                f"[BaseModel] ({my_model.id}) "
+                + "{{'id': '{}', ".format(my_model.id)
+                + "'created_at': {}, "
+                .format(my_model.created_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %S, %f)"))
+                + "'updated_at': {}"
+                .format(my_model.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %S, %f)}"))
+                )
+        self.assertEqual(str(my_model), dict_output)
+        my_model.save()

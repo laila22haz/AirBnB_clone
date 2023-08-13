@@ -75,14 +75,16 @@ class BaseTestCase(unittest.TestCase):
         """test case for"""
         self.maxDiff = None
         my_model = BaseModel()
+        my_model.created_at = datetime(2023, 8, 13, 19, 56, 17, 508188)
+        my_model.updated_at = datetime(2023, 8, 13, 19, 56, 17, 508201)
         self.assertEqual(str(type(str(my_model))), "<class 'str'>")
         dict_output = (
                 f"[BaseModel] ({my_model.id}) "
                 + "{{'id': '{}', ".format(my_model.id)
                 + "'created_at': {}, "
-                .format(my_model.created_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %-f)"))
+                .format(my_model.created_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)"))
                 + "'updated_at': {}"
-                .format(my_model.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %-f)}"))
+                .format(my_model.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)}"))
                 )
         self.assertEqual(str(my_model), dict_output)
         my_model.save()

@@ -76,7 +76,7 @@ class BaseTestCase(unittest.TestCase):
         self.maxDiff = None
         my_model = BaseModel()
         my_model.created_at = datetime(2023, 8, 13, 19, 56, 17, 508188)
-        my_model.updated_at = datetime(2023, 8, 13, 19, 56, 17, 508201)
+        my_model.updated_at = datetime(2023, 8, 13, 19, 56, 17, 508209)
         self.assertEqual(str(type(str(my_model))), "<class 'str'>")
         dict_output = (
                 f"[BaseModel] ({my_model.id}) "

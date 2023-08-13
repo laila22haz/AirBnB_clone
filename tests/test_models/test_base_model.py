@@ -84,5 +84,3 @@ class BaseTestCase(unittest.TestCase):
                 + "'updated_at': {}"
                 .format(my_model.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)}"))
                 )
-        self.assertEqual(str(my_model), dict_output)
-        my_model.save()

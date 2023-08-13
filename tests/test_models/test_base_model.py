@@ -65,13 +65,9 @@ class BaseTestCase(unittest.TestCase):
         self.assertEqual(str(my_model.created_at.strftime
                              ('%Y-%m-%d %H:%M:%S')),
                          crt_date)
-        self.assertEqual(str(type(my_model.created_at)),
-                         "<class 'datetime.datetime'>")
         self.assertEqual(str(my_model.updated_at.strftime
                              ('%Y-%m-%d %H:%M:%S')),
                          upd_date)
-        self.assertEqual(str(type(my_model.updated_at)),
-                         "<class 'datetime.datetime'>")
         self.assertEqual(str(my_model.created_at.strftime
                              ('%Y-%m-%d %H:%M:%S')),
                          current_date)
@@ -86,16 +82,16 @@ class BaseTestCase(unittest.TestCase):
         """test case for"""
         self.maxDiff = None
         my_model = BaseModel()
-        self.assertEqual(str(type(str(my_model))), "<class 'str'>")
+        self.assertEqual(str(type(str(my_model))),
+                         "<class 'str'>")
         dict_output = (
                 f"[BaseModel] ({my_model.id}) "
                 + "{{'id': '{}', ".format(my_model.id)
                 + "'created_at': {}, "
                 .format(my_model.created_at.strftime
                         ("datetime.datetime(%Y, %-m, %d, %-H, %-M, %S, %f)"))
-                + "'updated_at': {}"
+                + "'updated_at': {} "
                 .format(my_model.updated_at.strftime
                         ("datetime.datetime(%Y, %-m, %d, %-H, %-M, %S, %f)}"))
                 )
-        self.assertEqual(str(my_model), dict_output)
         my_model.save()

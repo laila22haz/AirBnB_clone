@@ -7,6 +7,12 @@ from datetime import datetime
 from time import sleep
 import uuid
 
+def converter(date_val):
+    try:
+        return date_val.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)")
+    except TypeError:
+        return -1
+        
 def is_valis_id(id):
     try:
         uuid.UUID(id)
@@ -36,13 +42,19 @@ dict_output = (
                 f"[BaseModel] ({mymodel.id}) "
                 + "{{'id': {}, ".format(mymodel.id)
                 + "'created_at': {}, "
-                .format(mymodel.created_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)"))
+                .format(mymodel.created_at.strftime("datetime.datetime(%Y, %-m, %dT, %-H, %-M, %-S, %f)"))
                 + "'updated_at': {} "
-                .format(mymodel.updated_at.strftime("datetime.datetime(%Y, %-m, %d, %-H, %-M, %-S, %f)}"))
+                .format(mymodel.updated_at.strftime("datetime.datetime(%Y, %-m, %dT, %-H, %-M, %-S, %f)}"))
                 )
-print(dict_output)
-print(type(mymodel.created_at))
-print(type(mymodel.updated_at))
+print((dict_output))
+mydic = mymodel.to_dict()
+print(mydic['__class__'])
+json_output = (
+            f"{{'__class__': 'BaseModel', 'id': {mymodel.id}, 'created_at': '{mymodel.created_at.isoformat()}'"
+            + f", 'updated_at': '{mymodel.created_at.isoformat()}'}}"
+        )
+print(json_output)
+print(type(mydic))
 '''
 print(mymodel.id)
 time1 = mymodel.created_at.strftime('%Y-%m-%d %H:%M:%S')

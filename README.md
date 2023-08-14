@@ -1,6 +1,6 @@
 # Airbnb Console
 
-Project Description:
+# Project Description:
 The Airbnb Console is a command-line interface (CLI) for managing data related to an Airbnb-like application. The project consists of various classes that represent different entities in the application such as users, cities, states, places, etc. The main goal of this project is to provide a way to interact with the application's data using the command line.
 
 Command Interpreter Description

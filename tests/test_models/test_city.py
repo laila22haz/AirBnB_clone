@@ -1,5 +1,6 @@
 #!/usr/bin/python3
-"""Unittest for the City class
+"""
+Unittest for the City class
 """
 from models.city import City
 from models.state import State

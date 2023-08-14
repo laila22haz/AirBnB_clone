@@ -22,7 +22,7 @@ To create a new user:
 or
 * User.create
 
-To show information about a user:
+# To show information about a user:
 
 show User user_id
 or

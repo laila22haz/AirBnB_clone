@@ -24,15 +24,15 @@ or
 
 # To show information about a user:
 
-show User user_id
+* show User user_id
 or
-User.show(user_id)
+* User.show(user_id)
 
-To update a user's information:
+# To update a user's information:
 
-update User user_id name "new_name"
+* update User user_id name "new_name"
 oe
-User.update(user_id, name="New Name")
+* User.update(user_id, name="New Name")
 
 To delete a user:
 

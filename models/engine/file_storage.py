@@ -59,7 +59,8 @@ class FileStorage:
         keys_to_delete = list(FileStorage.__objects.keys())
         for k in keys_to_delete:
             del FileStorage.__objects[k]
-        json_files = [file for file in os.listdir(os.getcwd()) if file.endswith(".json")]
+        json_files = [file for file in os.listdir(os.getcwd())
+                      if file.endswith(".json")]
         if not json_files:
             return
         for file in json_files:

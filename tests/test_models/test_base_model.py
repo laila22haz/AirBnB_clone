@@ -95,4 +95,4 @@ class BaseTestCase(unittest.TestCase):
                               'id': my_model.id,
                               'created_at': my_model.created_at.isoformat(),
                               'updated_at': my_model.updated_at.isoformat()},
-                                            BaseDict)
+                             BaseDict)

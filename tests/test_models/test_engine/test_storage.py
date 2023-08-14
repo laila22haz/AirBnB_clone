@@ -67,3 +67,6 @@ class StorageTestCase(unittest.TestCase):
         id, crt, upd = dispatch(mymodel)
         StorageDict = storage.all()
         self.assertDictEqual({f"BaseModel.{mymodel.id}": mymodel}, StorageDict)
+
+if __name__ == "__main__":
+    unittest.main()

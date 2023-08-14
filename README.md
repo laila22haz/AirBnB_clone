@@ -34,14 +34,14 @@ or
 oe
 * User.update(user_id, name="New Name")
 
-To delete a user:
+# To delete a user:
 
-destroy User user_id
+* destroy User user_id
 or
-User.destroy(user_id)
+* User.destroy(user_id)
 
-To list all users:
+# To list all users:
 
-all User
+* all User
 or
-User.all()
+* User.all()

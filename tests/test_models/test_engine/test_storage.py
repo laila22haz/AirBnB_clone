@@ -15,10 +15,11 @@ import uuid
 
 def json_clear():
     json_file = [file for file in os.listdir(os.getcwd())
-                  if file.endswith(".json")]
+                 if file.endswith(".json")]
     for file in json_file:
         file_path = os.path.join(os.getcwd(), file)
         os.remove(file_path)
+
 
 def dispatch(obj):
     if isinstance(obj, BaseModel):
@@ -29,7 +30,7 @@ def dispatch(obj):
 class StorageTestCase(unittest.TestCase):
     """Test class for Filestorage"""
     maxDiff = None
-    
+
     def test_1_initials(self):
         """instanciation tests"""
         jsonfile = "file.json"
@@ -42,16 +43,13 @@ class StorageTestCase(unittest.TestCase):
         mymodel = BaseModel()
         mymodel.save()
         self.assertTrue(os.path.exists(jsonfile))
-        
-        
-    
+
     @patch('models.engine.file_storage.FileStorage.new')
     def test_2_new_method_called(self, mock_new):
         """test if new method is called when BaseModel instance is created"""
         mymodel = BaseModel()
         mock_new.assert_called_once_with(mymodel)
-    
-    
+
     @patch('models.engine.file_storage.FileStorage.save')
     def test_4_save_method_called(self, mock_save):
         """test if save method is called"""
@@ -67,6 +65,7 @@ class StorageTestCase(unittest.TestCase):
         id, crt, upd = dispatch(mymodel)
         StorageDict = storage.all()
         self.assertDictEqual({f"BaseModel.{mymodel.id}": mymodel}, StorageDict)
+
 
 if __name__ == "__main__":
     unittest.main()

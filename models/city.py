@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-City module
+Build the City Class
 """
 from models.base_model import BaseModel
 

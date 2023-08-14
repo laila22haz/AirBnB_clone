@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-FileStorage module to store data
+FileStorage Class to store data
 """
 from models.amenity import Amenity
 from models.base_model import BaseModel

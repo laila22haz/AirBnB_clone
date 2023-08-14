@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-User module
+Build the User Class
 """
 from models.base_model import BaseModel
 

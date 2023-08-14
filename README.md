@@ -14,7 +14,7 @@ You can type "help command" for get the usage of a specific command.
 Atlernatively, you can also run commands using this syntax:
 class_name.command("arugment1", "argument2", ...)
 
-Here are some example commands:
+# Here are some example commands:
 
 To create a new user:
 

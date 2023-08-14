@@ -6,7 +6,7 @@ The Airbnb Console is a command-line interface (CLI) for managing data related t
 # Command Interpreter Description
 The Command Interpreter is a Python module that provides an interactive command-line interface for managing the data of the Airbnb application. It allows users to create, read, update, and delete data stored in the application. The interpreter is implemented using the cmd module in Python.
 
-How to Start the Command Interpreter
+# How to Start the Command Interpreter
 Run the console.py file:
 You can run commands using this syntax:
 command argument1 argument2 ..

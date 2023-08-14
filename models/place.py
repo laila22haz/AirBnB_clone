@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Place module
+Build the Place Class
 """
 from models.base_model import BaseModel
 

@@ -5,6 +5,7 @@ from models.amenity import Amenity
 from models.base_model import BaseModel
 import unittest
 
+
 class TestAmenity(unittest.TestCase):
     """Test Amenity class"""
     def setUp(self):
@@ -25,7 +26,6 @@ class TestAmenity(unittest.TestCase):
         """method that assign the attributes"""
         name_value = "Hair_Salon"
         self.amenity.name = name_value
-
 
         self.assertEqual(self.amenity.name, name_value)
 

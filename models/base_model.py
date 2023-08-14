@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-BaseModel module
+Build the BaseModel Class 
 """
 from datetime import datetime
 import models

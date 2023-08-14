@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-State module
+Build the State Class
 """
 from models.base_model import BaseModel
 

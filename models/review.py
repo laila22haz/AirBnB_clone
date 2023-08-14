@@ -1,6 +1,6 @@
 #!/usr/bin/python3
 """
-Review module
+Build the Review Class
 """
 from models.base_model import BaseModel
 

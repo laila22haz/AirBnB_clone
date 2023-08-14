@@ -18,9 +18,9 @@ class_name.command("arugment1", "argument2", ...)
 
 To create a new user:
 
-Create User
+* Create User
 or
-User.create
+* User.create
 
 To show information about a user:
 

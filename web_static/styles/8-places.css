@@ -19,9 +19,10 @@
     border-bottom: #DDDDDD 1px solid;
     display: flex;
     justify-content: flex-start;
+    padding-left: 40px;
 }
 
-home_price {
+.home_price {
     display: flex;
     justify-content: flex-end;
 }
@@ -30,12 +31,49 @@ home_price {
     width: 100px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
 }
 
-.icon {
+.icon_guest {
     background: url(/web_static/images/icon_guest.png) no-repeat center;
+    width: 100px;
+    height: 45px;
+}
+
+.number_rooms {
+    width: 100px;
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    justify-content: center;
+}
+
+.icon_bedroom {
+    background: url(/web_static/images/icon_bed.png) no-repeat center;
+    width: 100px;
+    height: 45px;
+}
+
+.number_bathrooms {
+    width: 100px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.icon_bathroom {
+    background: url(/web_static/images/icon_bath.png) no-repeat center;
+    width: 100px;
+    height: 45px;
+}
+
+.user {
+    text-align: start;
+    margin-top: 20px;
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.description {
+    text-align: start;
+    font-size: 16px;
 }

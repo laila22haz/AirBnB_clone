@@ -7,8 +7,6 @@
 
 .articles {
     display: flex;
-    flex-direction: row;
-    flex-wrap: wrap;
 }
 
 .my_home {
@@ -31,8 +29,18 @@ h2 {
     border-radius: 4px;
 }
 .suite {
-    width: 390px;
+    width: 400px;
     padding: 20px;
-    margin: 20px 20px 20px 250px;
+    margin: 20px;
     border-radius: 4px;
+}
+
+.Arizona {
+    font-size: 20px;
+    margin-top: 20px;
+}
+
+.California {
+    font-size: 20px;
+    margin-top: 15px;
 }
